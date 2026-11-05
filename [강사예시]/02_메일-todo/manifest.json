@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "오늘 할 일 작성기",
+  "version": "1.0.0",
+  "description": "오늘 할 일을 추가하고, 완료 체크하고, 삭제할 수 있는 간단한 할 일 목록",
+  "action": {
+    "default_title": "오늘 할 일 작성기",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["gmail.js"],
+      "css": ["gmail.css"]
+    }
+  ]
+}

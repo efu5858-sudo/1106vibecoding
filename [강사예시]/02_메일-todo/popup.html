@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>오늘 할 일 작성기</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>오늘 할 일</h1>
+    <p id="count" class="count">남은 할 일 0개</p>
+  </header>
+
+  <form id="add-form">
+    <input id="todo-input" type="text" placeholder="할 일을 입력하세요" maxlength="100" autocomplete="off" autofocus>
+    <button type="submit">추가</button>
+  </form>
+  <p id="error" class="error" hidden>할 일을 입력해 주세요.</p>
+
+  <ul id="todo-list"></ul>
+  <p id="empty" class="empty">아직 할 일이 없어요.</p>
+
+  <script src="popup.js"></script>
+</body>
+</html>

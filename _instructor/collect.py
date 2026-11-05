@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "_instructor" / "out"
 ROUNDS = ["round1", "round2", "round3"]
+EXAMPLES_DIR = "[강사예시]"
 TEXT_EXT = {".html", ".css", ".js", ".json", ".md", ".txt"}
 SCREENSHOT_NAMES = {"screenshot.png", "screenshot.jpg", "screenshot.jpeg"}
 IGNORED_NAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
@@ -187,12 +188,15 @@ def main():
         }
         prev_files = {s: sub["files"] for s, sub in submissions.items()}
 
+    examples, _ = collect_round(EXAMPLES_DIR, {})
+
     students = sorted({s for r in rounds.values() for s in r["submissions"]})
     dashboard = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "commit": git("rev-parse", "--short", "HEAD"),
         "students": students,
         "rounds": rounds,
+        "examples": examples,
     }
     out_file = OUT / "dashboard.json"
     out_file.write_text(json.dumps(dashboard, ensure_ascii=False, indent=2), encoding="utf-8")
