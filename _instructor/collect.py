@@ -5,9 +5,14 @@
     python _instructor/collect.py --no-pull  # 지금 있는 파일로만 정리
 
 결과: _instructor/out/dashboard.json, _instructor/out/screenshots/<라운드>/<아이디>.png
+      _instructor/out/rows.json (대시보드용 한 줄씩 정리본)
+
+스크린샷을 대시보드에 올린 주소는 _instructor/image_urls.json 에
+{"<파일 sha1>": "<주소>"} 로 적어 두면 rows.json 의 image 칸에 들어간다.
 """
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -17,8 +22,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "_instructor" / "out"
+IMAGE_URLS = ROOT / "_instructor" / "image_urls.json"
 ROUNDS = ["round1", "round2", "round3"]
 EXAMPLES_DIR = "[강사예시]"
+ROUND_LABELS = {"round1": "1라운드", "round2": "2라운드", "round3": "3라운드", EXAMPLES_DIR: "강사 예시"}
 TEXT_EXT = {".html", ".css", ".js", ".json", ".md", ".txt"}
 SCREENSHOT_NAMES = {"screenshot.png", "screenshot.jpg", "screenshot.jpeg"}
 IGNORED_NAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
@@ -145,7 +152,10 @@ def collect_round(round_name, prev_round_files):
             dest = OUT / "screenshots" / round_name / f"{student}{Path(screenshot).suffix.lower()}"
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(entry / screenshot, dest)
-            screenshot = dest.relative_to(OUT).as_posix()
+            screenshot = {
+                "file": dest.relative_to(OUT).as_posix(),
+                "sha1": hashlib.sha1(dest.read_bytes()).hexdigest(),
+            }
 
         submission = {
             "manifest": manifest,
@@ -163,6 +173,44 @@ def collect_round(round_name, prev_round_files):
         submissions[student] = submission
 
     return submissions, stray
+
+
+def to_rows(rounds, examples):
+    """대시보드가 읽는 한 줄 = 한 사람의 한 라운드 제출."""
+    try:
+        image_urls = json.loads(IMAGE_URLS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        image_urls = {}
+
+    groups = [(name, r["submissions"]) for name, r in rounds.items()]
+    groups.append((EXAMPLES_DIR, examples))
+    rows = []
+    for round_name, submissions in groups:
+        for student, sub in submissions.items():
+            manifest = sub["manifest"] or {}
+            commit = sub["last_commit"] or {}
+            changes = sub.get("changes_from_previous_round")
+            shot = sub["screenshot"]
+            rows.append({
+                "round": round_name,
+                "round_label": ROUND_LABELS[round_name],
+                "student": student,
+                "name": manifest.get("name") or "",
+                "description": manifest.get("description") or "",
+                "version": manifest.get("version") or "",
+                "sites": ", ".join(manifest.get("content_script_sites", [])),
+                "files": len(sub["files"]),
+                "lines": sub["total_lines"],
+                "image": image_urls.get(shot["sha1"], "") if shot else "",
+                "committed_at": commit.get("time", ""),
+                "issues": " / ".join(sub["issues"]),
+                "warnings": " / ".join(sub["secret_warnings"]),
+                "has_previous": changes is not None,
+                "files_added": len(changes["added"]) if changes else 0,
+                "files_changed": len(changes["changed"]) if changes else 0,
+                "line_delta": sum(c["line_delta"] for c in changes["changed"]) if changes else 0,
+            })
+    return rows
 
 
 def main():
@@ -200,6 +248,9 @@ def main():
     }
     out_file = OUT / "dashboard.json"
     out_file.write_text(json.dumps(dashboard, ensure_ascii=False, indent=2), encoding="utf-8")
+    (OUT / "rows.json").write_text(
+        json.dumps(to_rows(rounds, examples), ensure_ascii=False, indent=1), encoding="utf-8"
+    )
 
     print(f"학생 {len(students)}명")
     for round_name, r in rounds.items():
