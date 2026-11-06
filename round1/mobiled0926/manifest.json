@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Detail Page Reference Collector",
+  "version": "1.0.0",
+  "description": "Capture full product pages and download reference images.",
+  "permissions": ["activeTab", "tabs", "downloads", "debugger"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "상세페이지 레퍼런스",
+    "default_popup": "popup.html"
+  },
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
