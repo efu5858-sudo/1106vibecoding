@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "무드 브라우저",
+  "version": "1.2.1",
+  "description": "날씨와 발바닥 효과, 알람, 메모가 있는 나만의 브라우저",
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "무드 브라우저",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "weather-physics.js",
+        "effects.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
