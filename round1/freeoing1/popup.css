@@ -1,0 +1,29 @@
+:root { color-scheme: light; --accent: #2563eb; --ink: #17233c; }
+* { box-sizing: border-box; }
+body { width: 360px; margin: 0; background: #f6f8fe; color: var(--ink); font: 18px/1.5 "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+main { padding: 24px 20px 18px; }
+.badge { display: inline-block; color: #1d4ed8; background: #e6eeff; border-radius: 20px; padding: 4px 10px; font-size: 14px; font-weight: 700; }
+h1 { font-size: 25px; letter-spacing: -1px; margin: 12px 0 4px; }
+.intro { color: #5c6982; font-size: 16px; margin: 0 0 24px; }
+label { display: block; font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+.input-row { display: flex; gap: 8px; }
+input[type="text"], #todo-input { min-width: 0; flex: 1; width: 100%; border: 1px solid #b9c7e2; border-radius: 12px; padding: 12px; font: inherit; background: white; }
+button { font: inherit; cursor: pointer; border: 0; border-radius: 12px; }
+#add-button { background: var(--accent); color: white; padding: 0 14px; font-weight: 700; }
+#add-button:hover { background: #1d4ed8; }
+button:disabled, input:disabled { opacity: .6; cursor: wait; }
+:focus-visible { outline: 3px solid #719eff; outline-offset: 3px; }
+#message { min-height: 22px; margin: 8px 0 14px; font-size: 14px; color: #b42318; }
+.list-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+h2 { font-size: 18px; margin: 0; }
+#remaining { color: #1d4ed8; font-size: 15px; font-weight: 700; }
+ul { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow-y: auto; }
+li { display: flex; align-items: center; gap: 10px; padding: 13px 10px; margin-bottom: 8px; background: white; border: 1px solid #e0e7f4; border-radius: 13px; }
+.task-label { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; margin: 0; font-size: 18px; font-weight: 400; cursor: pointer; }
+.task-label input { width: 22px; height: 22px; flex-shrink: 0; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.task-text { overflow-wrap: anywhere; white-space: pre-wrap; }
+.done .task-text { color: #768299; text-decoration: line-through; }
+.delete-button { background: #f1f4fa; color: #5a657a; padding: 9px 8px; font-size: 14px; flex-shrink: 0; }
+.delete-button:hover { background: #fee8e7; color: #b42318; }
+#empty { padding: 26px 12px; border: 1px dashed #cbd7ef; border-radius: 13px; text-align: center; color: #68758d; font-size: 16px; }
+footer { color: #68758d; font-size: 13px; text-align: center; margin-top: 20px; }
