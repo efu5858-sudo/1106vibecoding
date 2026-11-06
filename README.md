@@ -62,7 +62,8 @@ round3/               ← 3라운드 과제
 
 1. **초대 수락** (처음 한 번만): 깃허브 가입 메일로 온 초대장에서 **Accept invitation**
 2. **폴더 이름 바꾸기**: 내 확장 프로그램 폴더를 복사해서, 이름을 **내 닉네임**으로 바꾸기
-3. **스크린샷 넣기**: 확장 프로그램 화면을 캡처해서 그 폴더 안에 `screenshot.png` 로 저장
+3. **스크린샷 넣기**: 확장 프로그램 화면을 캡처해서 그 폴더 안에 `screenshot.png` 로 저장 (더 보여 줄 장면은 `screenshot-2.png`, `screenshot-3.png`)
+   **소개 글 넣기**: 라운드 폴더의 `_양식/README.md` 를 내 폴더에 복사해서 채우기. 자세한 건 각 라운드 폴더 안내 참고
 4. **올리기**: 이번 라운드 폴더(예: `round1`) 클릭 → **Add file** → **Upload files** → 내 닉네임 폴더를 **통째로** 끌어다 놓기
 5. 아래 **Commit changes** 누르기
 
@@ -75,6 +76,7 @@ round1/
     ├── popup.html
     ├── popup.js
     ├── ...
+    ├── README.md          ← 소개 글
     └── screenshot.png
 ```
 
