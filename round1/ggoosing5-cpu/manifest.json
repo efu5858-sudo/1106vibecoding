@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "일",
+  "short_name": "일",
+  "version": "1.1.0",
+  "description": "오늘과 주간 일정을 입력·수정·삭제하고 이전 미완료 일정을 확인하세요.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.open-meteo.com/*"],
+  "action": { "default_title": "일", "default_popup": "popup.html" }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘 할 일 작성기</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+  <script src="info.js" defer></script>
+</head>
+<body>
+  <section class="today-info" aria-label="날짜 시간 날씨">
+    <p id="today-date"></p>
+    <time id="today-time" aria-label="현재 시간"></time>
+    <div class="weather-controls"><label for="weather-city">날씨 지역</label><select id="weather-city" disabled>
+      <option value="seoul">서울</option><option value="busan">부산</option><option value="incheon">인천</option><option value="daegu">대구</option><option value="daejeon">대전</option><option value="gwangju">광주</option><option value="ulsan">울산</option><option value="sejong">세종</option><option value="suwon">수원</option><option value="chuncheon">춘천</option><option value="gangneung">강릉</option><option value="cheongju">청주</option><option value="jeonju">전주</option><option value="mokpo">목포</option><option value="pohang">포항</option><option value="changwon">창원</option><option value="jeju">제주</option>
+    </select><button id="weather-refresh" type="button" aria-label="날씨 새로고침" disabled>↻</button></div>
+    <p id="weather-status" role="status">날씨를 불러오는 중이에요.</p>
+    <a class="weather-source" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">날씨: Open-Meteo</a>
+  </section>
+  <header><div><span class="eyebrow">하나씩, 차근차근</span><h1>오늘 할 일 작성기</h1><p>하루부터 일주일까지, 나의 일정</p></div><button id="open-wide" type="button">넓게 보기 ↗</button></header>
+  <main>
+    <nav class="view-tabs" aria-label="일정 보기"><button type="button" data-view="today" aria-pressed="true">오늘</button><button type="button" data-view="week" aria-pressed="false">주간</button><button type="button" data-view="previous" aria-pressed="false">이전 미완료 <span id="previous-badge">0</span></button><button type="button" data-view="all" aria-pressed="false">전체</button></nav>
+    <div id="week-navigation" hidden><div class="week-buttons"><button id="week-prev" type="button" aria-label="이전 주">←</button><button id="week-current" type="button">이번 주</button><button id="week-next" type="button" aria-label="다음 주">→</button></div><p id="week-label"></p></div>
+    <div class="list-heading"><h2 id="list-title">오늘 일정</h2><span id="remaining" aria-live="polite">전체 남은 0개</span></div>
+    <p id="view-help" class="section-help"></p>
+    <div id="todo-list" aria-label="일정 목록"></div>
+    <p id="empty">표시할 일정이 없어요.</p>
+    <section class="editor-section" aria-label="일정 추가 및 수정">
+    <form id="todo-form">
+      <label id="editor-title" for="todo-input">새로운 일정</label>
+      <input id="todo-input" placeholder="무엇을 할까요?" maxlength="200" autocomplete="off" required disabled>
+      <div class="schedule-fields"><label>날짜<input id="schedule-date" type="date" required disabled></label><label>시간 (선택)<input id="schedule-time" type="time" disabled></label></div>
+      <div class="input-row"><button id="add" type="submit" disabled>추가</button><button id="cancel-edit" type="button" hidden disabled>수정 취소</button></div>
+    </form>
+    <details id="bulk-section">
+      <summary>일정 여러 줄 붙여넣기</summary>
+      <form id="bulk-form">
+        <label for="bulk-input">한 줄에 일정 하나씩 입력하세요</label>
+        <p id="bulk-help">위에서 선택한 날짜로 모두 추가돼요. 시간은 추가 후 수정할 수 있어요. 빈 줄은 건너뛰어요.</p>
+        <textarea id="bulk-input" rows="4" placeholder="12시 30분 점심&#10;오후 3시 회의" aria-describedby="bulk-help" disabled></textarea>
+        <button id="bulk-add" type="submit" disabled>한꺼번에 추가</button>
+      </form>
+    </details>
+    <p id="message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <footer>목록은 이 브라우저에 자동 저장돼요.</footer>
+</body>
+</html>
