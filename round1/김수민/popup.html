@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘 할 일 작성기</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="heading-row">
+        <p class="eyebrow"><span class="brand-mark" aria-hidden="true">✓</span> DAILY FOCUS</p>
+        <button id="close-panel" class="close-button" type="button" aria-label="할 일 창 닫기" hidden>×</button>
+      </div>
+      <h1>오늘 할 일<span class="title-dot">.</span></h1>
+      <p class="subtitle">하나씩 끝내는, 가벼운 하루.</p>
+      <div class="progress-summary">
+        <p id="remaining" class="remaining" aria-live="polite">남은 할 일 0개</p>
+        <span id="progress-label" class="progress-label">0 / 0 완료</span>
+      </div>
+      <progress id="progress" max="1" value="0" aria-label="할 일 완료율"></progress>
+    </header>
+
+    <section id="garden" class="garden-card" data-stage="0" aria-labelledby="garden-title">
+      <svg class="garden-art" viewBox="0 0 120 130" aria-hidden="true" focusable="false">
+        <circle cx="60" cy="62" r="51" fill="#edf4ee" />
+        <ellipse cx="60" cy="113" rx="32" ry="5" fill="#dbe7dc" />
+        <ellipse class="garden-seed" cx="60" cy="102" rx="5" ry="7" fill="#a17a55" transform="rotate(25 60 102)" />
+        <g fill="none" stroke="#55876b" stroke-width="3.5" stroke-linecap="round">
+          <path class="plant-part level-1" d="M60 105 Q57 86 60 65" />
+          <path class="plant-part level-2" d="M60 65 Q63 55 60 45" />
+          <path class="plant-part level-3" d="M60 45 Q58 35 60 26" />
+        </g>
+        <path class="plant-part level-1" d="M59 83 Q37 85 35 66 Q56 63 59 83Z" fill="#79a985" />
+        <path class="plant-part level-1" d="M60 74 Q79 77 84 60 Q64 57 60 74Z" fill="#91b99a" />
+        <path class="plant-part level-2" d="M60 60 Q41 61 40 46 Q56 44 60 60Z" fill="#91b99a" />
+        <path class="plant-part level-3" d="M60 46 Q76 48 79 34 Q64 32 60 46Z" fill="#79a985" />
+        <path class="garden-bud" d="M60 31 Q44 20 60 11 Q76 20 60 31Z" fill="#d99aaf" />
+        <g class="garden-flower">
+          <g fill="#e8a6b7">
+            <ellipse cx="60" cy="14" rx="8" ry="13" />
+            <ellipse cx="60" cy="14" rx="8" ry="13" transform="rotate(60 60 26)" />
+            <ellipse cx="60" cy="14" rx="8" ry="13" transform="rotate(120 60 26)" />
+            <ellipse cx="60" cy="14" rx="8" ry="13" transform="rotate(180 60 26)" />
+            <ellipse cx="60" cy="14" rx="8" ry="13" transform="rotate(240 60 26)" />
+            <ellipse cx="60" cy="14" rx="8" ry="13" transform="rotate(300 60 26)" />
+          </g>
+          <circle cx="60" cy="26" r="8" fill="#f4d58b" />
+          <circle cx="58" cy="24" r="2" fill="#fae8b7" />
+        </g>
+        <path d="M42 103 H78 L73 122 H47Z" fill="#c4d2c3" />
+        <rect x="39" y="100" width="42" height="7" rx="3" fill="#aabbac" />
+      </svg>
+      <div class="garden-copy">
+        <p class="garden-eyebrow">나의 작은 정원</p>
+        <h2 id="garden-title">시작을 기다리는 씨앗</h2>
+        <p id="garden-message" role="status" aria-live="polite">할 일 하나를 끝내면 싹이 나요.</p>
+        <span id="garden-count" class="garden-count">완료 0개 · 5개 달성하면 꽃이 피어요</span>
+      </div>
+    </section>
+
+    <section class="weather-card" aria-labelledby="weather-heading">
+      <div class="weather-heading">
+        <h2 id="weather-heading">서울 · 오늘의 날씨</h2>
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>
+      </div>
+      <p id="weather-status" role="status" aria-live="polite" aria-busy="true">불러오는 중…</p>
+    </section>
+
+    <form id="todo-form" novalidate>
+      <label for="todo-input" class="sr-only">새 할 일</label>
+      <div class="input-row">
+        <input
+          id="todo-input"
+          type="text"
+          maxlength="100"
+          placeholder="어떤 일을 해볼까요?"
+          autocomplete="off"
+          autofocus
+        >
+        <button type="submit" class="add-button">＋ 추가</button>
+      </div>
+      <p id="input-error" class="error" role="alert" aria-live="assertive"></p>
+    </form>
+
+    <ul id="todo-list" class="todo-list" aria-label="할 일 목록"></ul>
+    <div id="empty-message" class="empty-message">
+      <span class="empty-icon" aria-hidden="true">✓</span>
+      <strong>오늘의 첫 할 일을 적어보세요</strong>
+      <p>작은 일 하나부터 시작해도 좋아요.</p>
+    </div>
+    <footer>이 브라우저에 자동으로 저장됩니다</footer>
+  </main>
+
+  <script src="popup.js"></script>
+  <script src="weather.js"></script>
+</body>
+</html>
